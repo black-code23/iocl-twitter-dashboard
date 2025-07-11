@@ -1,17 +1,43 @@
-version: "3.8"
+
 
 
 services:
  
   postgres:
 
-   image: postgres:16-alpine
-   enviroment:
+   image: pgvector/pgvector:pg16
+   environment:
     POSTGRES_PASSWORD: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_DB: iocl
    ports:
     - "5432:5432"
    volumes:
     - pgdata:/var/lib/postgresql/data
 
-volumes:    
-   pgdata:
+
+  nlp_worker:
+    image: python:3.12-slim
+    volumes:
+      - .:/app                # mount project into container
+    working_dir: /app
+    command: ["python", "workers/nlp_worker.py"]
+    depends_on:
+      - postgres
+      # - kafka               # uncomment if you added Kafka services
+    environment:
+      - PG_DSN=postgresql://postgres:postgres@postgres:5432/iocl
+      - HF_HOME=/cache        # optional: cache Hugging‑Face downloads
+    restart: unless-stopped
+  grafana:
+    image: grafana/grafana:10.3.1
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
+

@@ -2,8 +2,12 @@ import os,time,json,logging
 from dotenv import load_dotenv
 from kafka import KafkaProducer
 import tweepy
+from pathlib import Path
 
-load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
+
+
 
 producer = KafkaProducer(
 		bootstrap_servers="localhost:9092",

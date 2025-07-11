@@ -9,3 +9,5 @@ requests==2.32.4
 requests-oauthlib==2.0.0
 tweepy==4.16.0
 urllib3==2.5.0
+transformers==4.41.2
+torch==2.3.0
