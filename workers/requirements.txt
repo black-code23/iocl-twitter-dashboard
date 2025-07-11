@@ -1,0 +1,7 @@
+python-dotenv
+kafka-python
+psycopg2-binary
+transformers
+torch
+pandas
+scikit-learn

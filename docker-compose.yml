@@ -17,25 +17,28 @@ services:
 
 
   nlp_worker:
-    image: python:3.12-slim
-    volumes:
-      - .:/app                # mount project into container
-    working_dir: /app
-    command: ["python", "workers/nlp_worker.py"]
-    depends_on:
+   build:
+    context: .
+    dockerfile: Dockerfile.worker
+
+   volumes:
+      - .:/app                
+   working_dir: /app
+   command: ["python", "workers/nlp_worker.py"]
+   depends_on:
       - postgres
-      # - kafka               # uncomment if you added Kafka services
-    environment:
+      
+   environment:
       - PG_DSN=postgresql://postgres:postgres@postgres:5432/iocl
-      - HF_HOME=/cache        # optional: cache Hugging‑Face downloads
-    restart: unless-stopped
+      - HF_HOME=/cache        
+   restart: unless-stopped
   grafana:
-    image: grafana/grafana:10.3.1
-    ports:
+   image: grafana/grafana:10.3.1
+   ports:
       - "3000:3000"
-    environment:
+   environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
-    depends_on:
+   depends_on:
       - postgres
 
 volumes:
