@@ -6,8 +6,13 @@ import os
 
 app = FastAPI()
 
-
-conn = psycopg2.connect(os.getenv("postgresql://iocl_db_user:Jvjs0ygcosfDOnmOLdIM6Ow1kfHBVWuD@dpg-d1qlbafdiees73f3iq8g-a.oregon-postgres.render.com/iocl_db"))
+DATABASE_URL = "postgresql://iocl_db_user:Jvjs0ygcosfDOnmOLdIM6Ow1kfHBVWuD@dpg-d1qlbafdiees73f3iq8g-a.oregon-postgres.render.com/iocl_db?sslmode=require"
+conn = psycopg2.connect(dbname=os.getenv("DB_NAME"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    host=os.getenv("DB_HOST"),
+    port=os.getenv("DB_PORT"),
+    sslmode="require""))
 
 class TweetData(BaseModel):
     id: int
