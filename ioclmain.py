@@ -12,7 +12,7 @@ conn = psycopg2.connect(dbname=os.getenv("DB_NAME"),
     password=os.getenv("DB_PASSWORD"),
     host=os.getenv("DB_HOST"),
     port=os.getenv("DB_PORT"),
-    sslmode="require""))
+    sslmode="require"))
 
 class TweetData(BaseModel):
     id: int
