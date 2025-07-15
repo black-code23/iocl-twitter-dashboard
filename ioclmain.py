@@ -13,6 +13,9 @@ conn = psycopg2.connect(dbname=os.getenv("DB_NAME"),
     host=os.getenv("DB_HOST"),
     port=os.getenv("DB_PORT"),
     sslmode="require")
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to IOCL Twitter Dashboard"}
 
 class TweetData(BaseModel):
     id: int
